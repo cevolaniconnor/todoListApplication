@@ -3,13 +3,26 @@
 #include <string>
 using namespace std;
 
+class Task{
+private: 
+	string description;
+	bool isComplete;
+public:
+	Task(string desc) : description(desc), isComplete(false) {}
+	string getDescription() const { return description; }
+    bool getStatus() const { return isComplete; }
+    void markComplete() { isComplete = true; }
+};
+
 void addTask(vector<string>& vec){
 	//add to the vector
 	cout << "Add a task: " << endl;
 
-	string task;
-	getline(cin,task);
-	vec.push_back(task);
+	string taskDescription;
+	getline(cin,taskDescription);
+
+	Task newTask(taskDescription);
+	vec.push_back(taskDescription);
 }
 
 void printTasks(vector<string>& vec){
@@ -36,7 +49,7 @@ void eraseTask(vector<string>& vec){
 
 int main(){
 
-		vector<string> todos = {"Test Task"};
+		vector<string> todos;
 		int input;
 
 		cout << "Todo List" << endl;
@@ -74,13 +87,5 @@ int main(){
 				break;
 			}
 			} while (input != 5);
-	/*
-		todos.push_back("Do the dishes");
-		todos.push_back("Feed rose");
-
-		
-		
-	*/
-
 	return 0;
 }
