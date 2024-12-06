@@ -11,10 +11,31 @@ public:
 	Task(string desc) : description(desc), isComplete(false) {}
 	string getDescription() const { return description; }
     bool getStatus() const { return isComplete; }
-    void markComplete() { isComplete = true; }
+    void markComplete() {isComplete = true;}
+    friend std::ostream& operator<<(std::ostream& os, const Task& task) {
+       os << task.description << " [" << (task.isComplete ? "Completed" : "Not Completed") << "]";
+       return os;
+    }
 };
 
-void addTask(vector<string>& vec){
+
+void markTask(vector<Task>& vec){
+	int index;
+	//printTasks(vec);
+	cout << "Choose which task to mark complete (by the index)";
+
+	cin.clear();
+	cin >> index;
+
+	if (index >= 0 && index < vec.size()) {
+        vec[index].markComplete();
+        cout << "The task was marked complete!" << endl;
+    } else {
+        cout << "Invalid index!" << endl;
+    }
+}
+
+void addTask(vector<Task>& vec){
 	//add to the vector
 	cout << "Add a task: " << endl;
 
@@ -25,16 +46,19 @@ void addTask(vector<string>& vec){
 	vec.push_back(taskDescription);
 }
 
-void printTasks(vector<string>& vec){
+void printTasks(vector<Task>& vec){
+	int index = 0;
 	cout << "Viewing all tasks: " << endl;
 	//Print out the vector
 	for (int i = 0; i < vec.size(); ++i)
 	{
-		cout << vec[i] << endl;
+
+		cout << "(" << index << ") " << vec[i] << endl;
+		index += 1;
 	}
 }
 
-void eraseTask(vector<string>& vec){
+void eraseTask(vector<Task>& vec){
 	cout << "Delete task (By index): " << endl;
 	int remove;
 
@@ -49,7 +73,7 @@ void eraseTask(vector<string>& vec){
 
 int main(){
 
-		vector<string> todos;
+		vector<Task> todos;
 		int input;
 
 		cout << "Todo List" << endl;
@@ -79,7 +103,7 @@ int main(){
 				break;
 	  		case 4:
 				cout << "Mark task completed: " << endl;
-				cout << "\n";
+				markTask(todos);
 				break;
 			case 5:
 				cout << "Exiting app"  << endl;
